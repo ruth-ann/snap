@@ -503,6 +503,28 @@ void TestGetInEgonetSubAttr() {
   PrintGraph("TNEANet w/ Attr - Ego 1 - Sub 90%", Graph2);
 }
 
+// Test PGraph GetGraphUnion
+void TestGetGraphUnion() {
+  PNGraph Graph = TNGraph::New();
+  PNGraph Graph0 = TNGraph::New();
+
+  for (int i = 0; i < 5; i++) {
+    Graph->AddNode(i);
+  }
+  for (int i = 0; i < 5; i++) {
+    Graph->AddEdge(i,(i+1) % 5);
+    Graph->AddEdge(i,(i+2) % 5);
+  }
+  for (int i = 3; i < 8; i++) {
+    Graph0->AddEdge(i,(i+1) % 8);
+  }
+  PrintGraph("PGraph DstGraph before union", Graph);
+  PrintGraph("PGraph SrcGraph before union", Graph0);
+
+  TSnap::GetGraphUnion<PNGraph>(Graph, Graph0);
+  PrintGraph("PGraph SrcGraph after union", Graph);
+
+}
 
 // Generate TUNGraph
 PUNGraph GetTestTUNGraph() {

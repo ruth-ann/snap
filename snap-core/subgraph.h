@@ -74,6 +74,9 @@ template<class PGraph> PGraph GetInEgonetSub(const PGraph &Graph, const int CtrN
 /// Returns the randomly sampled egonet with nodes sampled based on percentage or raw number, copying attributes
 PNEANet GetInEgonetSubAttr(const PNEANet &Graph, const int CtrNId, const int Radius, const int MaxNum, const float percent);
 
+//Modifies SrcGraph so that it is the union of SrcGraph and DstGraph
+template<class PGraph> PGraph GetGraphUnion(const PGraph& SrcGraph, const PGraph& DstGraph);
+
 /////////////////////////////////////////////////
 // Implementation
 namespace TSnapDetail {
@@ -660,6 +663,20 @@ PGraph GetInEgonetSub(const PGraph &Graph, const int CtrNId, const int Radius, c
     Queue2 = tempSwapQueue;
   }
   return NewGraphPt;
+}
+
+template<class PGraph> 
+PGraph GetGraphUnion(const PGraph& DstGraph, const PGraph& SrcGraph) {
+  for (typename PGraph::TObj::TNodeI NI = Graph2->BegNI(); NI < Graph2->EndNI(); NI++) {
+    if (! Graph1.IsNode(NI.GetId())){
+          Graph1.AddNode(NI.GetId());
+    }
+  }
+  for (typename PGraph::TObj::TEdgeI EI = Graph2->BegEI(); EI < Graph->EndEI(); EI++) {
+    if (! Graph1.IsEdge(EI.GetSrcNId(), EI.GetDstNId())){
+          Graph1.AddEdge(EI.GetSrcNId(), EI.GetDstNId());
+    }
+  }
 }
 
 } // namespace TSnap

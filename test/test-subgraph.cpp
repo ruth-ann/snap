@@ -664,6 +664,53 @@ TEST(subgraph, TestGetInEgonetSubAttr) {
   }
 }
 
+// Test TUNGraph GetInEgonetSub
+TEST(subgraph, TestGetInEgonetSubTNGraph) {
+  PNGraph Graph;
+  PNGraph Graph0;
+  PNGraph Graph1;
+  PNGraph Graph2;
+
+  Graph = GetTestTNGraph();
+  EXPECT_EQ(20, Graph->GetNodes());
+  EXPECT_EQ(60, Graph->GetEdges());
+
+  Graph0 = TSnap::GetInEgonetSub<PNGraph>(Graph, 3, 0, 2, 1.0);
+  EXPECT_EQ(1, Graph0->GetNodes());
+  EXPECT_EQ(0, Graph0->GetEdges());
+
+  Graph1 = TSnap::GetInEgonetSub<PNGraph>(Graph, 0, 1, 2, -1.0);
+  EXPECT_EQ(3, Graph1->GetNodes());
+  EXPECT_EQ(3, Graph1->GetEdges());
+
+  Graph2 = TSnap::GetInEgonetSub<PNGraph>(Graph, 0, 1, 0, 0.9);
+  EXPECT_EQ(3, Graph2->GetNodes());
+  EXPECT_EQ(3, Graph2->GetEdges());
+}
+
+// Test PGraph GetGraphUnion
+TEST(subgraph, TestGetInEgonetSubTNGraph) {
+  PNGraph Graph = TNGraph::New();
+  PNGraph Graph0 = TNGraph::New();
+
+  for (int i = 0; i < 5; i++) {
+    Graph->AddNode(i);
+  }
+  for (int i = 0; i < 5; i++) {
+    Graph->AddEdge(i,(i+1) % 5);
+    Graph->AddEdge(i,(i+2) % 5);
+  }
+ for (int i = 3; i < 8; i++) {
+    Graph0->AddNode(i);
+  }
+  for (int i = 3; i < 8; i++) {
+    Graph0->AddEdge(i,(i+1) % 8);
+  }
+  TSnap::GetGraphUnion<PNGraph>(Graph, Graph0);
+  EXPECT_EQ(9, Graph->GetNodes());
+  EXPECT_EQ(15, Graph->GetEdges());
+}
+
 
 // Generate TUNGraph
 PUNGraph GetTestTUNGraph() {
