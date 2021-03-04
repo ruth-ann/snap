@@ -22,7 +22,9 @@ MAIN = run-all-tests
 
 TEST_SRCS = \
 	test-helper.cpp \
-	test-TUNGraph.cpp test-TNGraph.cpp \
+	test-subgraph.cpp
+	
+#	test-TUNGraph.cpp test-TNGraph.cpp \
 	test-TNEGraph.cpp test-TNEANet.cpp \
 	test-TNodeNet.cpp test-TNodeEDatNet.cpp test-TNodeEdgeNet.cpp \
 	test-TTable.cpp \

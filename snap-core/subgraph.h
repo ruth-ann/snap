@@ -689,17 +689,30 @@ PGraph GetGraphUnion(PGraph& DstGraph, const PGraph& SrcGraph) {
 
 template<class PGraph> 
 PGraph GetGraphIntersection(const PGraph& Graph, const PGraph& Graph0) {
-  PGraph IntersectionGraph = PGraph::TObj::New();
+  int i = 0;
+  printf("\nIntersection function entered\n");
+  PGraph IntersectionGraphPt = PGraph::TObj::New();
+  typename PGraph::TObj& IntersectionGraph = *IntersectionGraphPt;
+  printf("Empty Intersection Graph made\n");
   for (typename PGraph::TObj::TNodeI NI = Graph->BegNI(); NI < Graph->EndNI(); NI++) {
-    if (Graph0->IsNode(NI.GetId()) && ! IntersectionGraph->IsNode(NI.GetId())) {
-      IntersectionGraph->AddNode(NI.GetId());
+    if (Graph0->IsNode(NI.GetId()) && ! IntersectionGraph.IsNode(NI.GetId())) {
+      IntersectionGraph.AddNode(NI.GetId());
     }
   }
+  printf("Nodes added to intersection graph\n");
   for (typename PGraph::TObj::TEdgeI EI = Graph->BegEI(); EI < Graph->EndEI(); EI++) {
-    if (Graph0->IsEdge(EI.GetSrcNId(), EI.GetDstNId()) && ! IntersectionGraph->IsEdge(EI.GetSrcNId(), EI.GetDstNId())) {
-      IntersectionGraph->AddEdge(EI.GetSrcNId(), EI.GetDstNId());
+    printf("Loop iteration: %d\n", i);
+    i ++;
+    printf("\nDestination ID: %d Source ID: %d\n", EI.GetDstNId(), EI.GetSrcNId());
+    // if (Graph0->IsEdge(EI.GetSrcNId(), EI.GetDstNId())) {
+    if (Graph0->IsEdge(EI.GetSrcNId(), EI.GetDstNId()) && ! IntersectionGraph.IsEdge(EI.GetSrcNId(), EI.GetDstNId())) {
+      printf("If check done %d\n", i);
+      IntersectionGraph.AddEdge(EI.GetSrcNId(), EI.GetDstNId());
+      printf("Edge added to intersection graph\n");
     }   
   }
-  return IntersectionGraph;
+  printf("Function Complete\n\n");
+
+  return IntersectionGraphPt;
 }
 } // namespace TSnap

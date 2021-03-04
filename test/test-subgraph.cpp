@@ -886,17 +886,22 @@ TEST(subgraph, TestGetGraphUnionAttr) {
   TSnap::GetGraphUnionAttr(Graph, Graph0);
   EXPECT_EQ(9, Graph->GetNodes());
   EXPECT_EQ(24, Graph->GetEdges());
+  printf("Union code done \n");
+
 }
 
 // Test PGraph GetGraphIntersection
 TEST(subgraph, TestGetGraphIntersection) {
   //Undirected graph
+  printf("Intersection undirected graph\n");
+
   PUNGraph Graph = TUNGraph::New();
   PUNGraph Graph0 = TUNGraph::New();
 
   for (int i = 0; i < 5; i++) {
     Graph->AddNode(i);
   }
+
   for (int i = 0; i < 5; i++) {
     Graph->AddEdge(i,(i + 1) % 5);
     Graph->AddEdge(i,(i + 2) % 5);
@@ -905,16 +910,19 @@ TEST(subgraph, TestGetGraphIntersection) {
   for (int i = 2; i < 6; i++) {
     Graph0->AddNode(i);
   }
+
   for (int i = 0; i < 4; i++) {
     Graph0->AddEdge(i + 2, ((i + 1) % 4) + 2);
     Graph0->AddEdge(i + 2, ((i + 2) % 4) + 2);
   }
-
   PUNGraph IntersectionGraph = TSnap::GetGraphIntersection(Graph, Graph0);
+
   EXPECT_EQ(3, IntersectionGraph->GetNodes());
+
   EXPECT_EQ(3, IntersectionGraph->GetEdges());
 
   //Directed graph
+  printf("Intersection directed graph\n");
   PNGraph Graph1 = TNGraph::New();
   PNGraph Graph2 = TNGraph::New();
 
@@ -938,7 +946,8 @@ TEST(subgraph, TestGetGraphIntersection) {
   EXPECT_EQ(4, IntersectionGraph0->GetNodes());
   EXPECT_EQ(3, IntersectionGraph0->GetEdges());
 
-  //Directed multigraph
+  // Directed multigraph
+  printf("Intersection network\n");
   PNEANet Graph3 = TNEANet::New();
   PNEANet Graph4 = TNEANet::New();
   int EId3 = 0;

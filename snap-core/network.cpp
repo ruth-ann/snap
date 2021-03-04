@@ -865,18 +865,36 @@ void TNEANet::DelEdge(const int& SrcNId, const int& DstNId, const bool& IsDir) {
 
 bool TNEANet::IsEdge(const int& SrcNId, const int& DstNId, int& EId, const bool& IsDir) const {
   const TNode& SrcNode = GetNode(SrcNId);
+  printf("\nIn call to TNEANet::IsEdge in network.cpp\n");
+
   for (int edge = 0; edge < SrcNode.GetOutDeg(); edge++) {
+    printf("\nIn for loop with edge #: %d", edge);
+    printf("\nSrcNode.GetOutEId with return value: %d", SrcNode.GetOutEId(edge));
     const TEdge& Edge = GetEdge(SrcNode.GetOutEId(edge));
+    printf("\nGetEdge called");
+
     if (DstNId == Edge.GetDstNId()) {
+    printf("\nIf check");
       EId = Edge.GetId();
+      printf("\nEdge.GetId");
       return true;
     }
   }
   if (! IsDir) {
+    printf("\nIn IsDir if branch");
+
     for (int edge = 0; edge < SrcNode.GetInDeg(); edge++) {
+      printf("\n7");
+
       const TEdge& Edge = GetEdge(SrcNode.GetInEId(edge));
+      printf("\n8");
+
       if (DstNId == Edge.GetSrcNId()) {
+        printf("\n9");
+
         EId = Edge.GetId();
+        printf("\n10");
+
         return true;
       }
     }
